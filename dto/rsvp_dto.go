@@ -9,8 +9,15 @@ type CreateRsvpRequest struct {
 	InvitedBy  string `json:"invitedBy"`
 }
 
-// ApiResponse định dạng Response chung
-type ApiResponse struct {
-	Success bool   `json:"success"`
+// PublicWishResponse DTO cho danh sách lời chúc hiển thị công khai
+type PublicWishResponse struct {
+	Name    string `json:"name"`
 	Message string `json:"message"`
+}
+
+// ApiResponse định dạng Response chung (Đã thêm field Data)
+type ApiResponse struct {
+	Success bool        `json:"success"`
+	Message string      `json:"message"`
+	Data    interface{} `json:"data,omitempty"`
 }

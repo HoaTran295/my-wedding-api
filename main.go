@@ -35,6 +35,7 @@ func main() {
 
 	// Route API
 	r.POST("/api/v1/wedding/rsvp", handlers.CreateRsvp)
+	r.GET("/api/v1/wedding/wishes", handlers.GetPublicWishes) // API lấy lời chúc công khai
 
 	// Chạy server tại port 8080
 	r.Run(":2711")

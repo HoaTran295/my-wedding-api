@@ -47,3 +47,29 @@ func CreateRsvp(c *gin.Context) {
 		Message: "Xác nhận tham dự thành công!",
 	})
 }
+
+// GetPublicWishes lấy danh sách các lời chúc đã được duyệt (is_visible = true)
+func GetPublicWishes(c *gin.Context) {
+	var wishes []dto.PublicWishResponse
+
+	// Query lọc: is_visible = 1, message không rỗng, sắp xếp mới nhất lên đầu
+	err := config.DB.Model(&models.RsvpResponse{}).
+		Select("name, message").
+		Where("is_visible = ? AND message IS NOT NULL AND message != ''", true).
+		Order("created_at DESC").
+		Find(&wishes).Error
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, dto.ApiResponse{
+			Success: false,
+			Message: "Khổng thể lấy danh sách lời chúc!",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, dto.ApiResponse{
+		Success: true,
+		Message: "Lấy danh sách lời chúc thành công!",
+		Data:    wishes,
+	})
+}
