@@ -88,7 +88,7 @@ func GetInvitePage(c *gin.Context) {
 	}
 
 	if name := cleanInviteName(c.Query(invitePageParam)); name != "" {
-		title := "Kính mời " + name + " tham dự đám cưới Trần Hòa & Ánh Tuyết"
+		title := "Thân mời " + name + " tham dự đám cưới Trần Hòa & Ánh Tuyết"
 		// $1/$2 trong ReplaceAllString có thể bị hiểu nhầm nếu tên chứa "$",
 		// nên dùng ReplaceAllStringFunc và tự escape HTML.
 		page = replaceMetaContent(page, ogTitleRe, html.EscapeString(title))

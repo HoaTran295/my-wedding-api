@@ -21,4 +21,4 @@ go get -u gorm.io/driver/mysql
 2. Thêm cấu hình trong nginx-invite.conf vào nginx, rồi: sudo nginx -t && sudo systemctl reload nginx
 3. Kiểm tra trên server:
    curl -s "https://cuoi-hoa-tuyet.htsolution.top/index.html?invite-name=Anh+Minh" | grep og:title
-   -> phải thấy "Kính mời Anh Minh tham dự đám cưới Trần Hòa &amp; Ánh Tuyết"
+   -> phải thấy "Thân mời Anh Minh tham dự đám cưới Trần Hòa &amp; Ánh Tuyết"
