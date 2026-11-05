@@ -7,8 +7,10 @@ go get -u gorm.io/driver/mysql
 ===== Trang quản lý danh sách tham dự (ds-tham-du.html) =====
 1. Chạy migration 1 lần trên database "wedding":
    migrations/001_add_is_deleted_to_rsvp_responses.sql
+   migrations/002_add_is_seen_to_rsvp_responses.sql
 2. Chạy lại server như bình thường:
    nohup go run main.go &
 3. API quản lý (không cần đăng nhập):
    GET    /api/v1/wedding/admin/rsvp       -> danh sách chưa soft delete (tham dự lên trước, mới nhất trước)
    DELETE /api/v1/wedding/admin/rsvp/:id   -> soft delete (is_deleted = 1)
+   PATCH  /api/v1/wedding/admin/rsvp/:id   -> body {"is_visible": true/false} và/hoặc {"is_seen": true/false}

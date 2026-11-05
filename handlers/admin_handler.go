@@ -77,3 +77,44 @@ func SoftDeleteRsvp(c *gin.Context) {
 		Message: "Đã xoá khỏi danh sách",
 	})
 }
+
+// UpdateRsvp cập nhật is_visible (hiển thị lời chúc lên thiệp) và/hoặc is_seen (đã xem)
+func UpdateRsvp(c *gin.Context) {
+	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
+	if err != nil || id <= 0 {
+		c.JSON(http.StatusBadRequest, dto.ApiResponse{Success: false, Message: "ID không hợp lệ"})
+		return
+	}
+
+	var req dto.UpdateRsvpRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, dto.ApiResponse{Success: false, Message: "Dữ liệu không hợp lệ"})
+		return
+	}
+
+	updates := map[string]interface{}{}
+	if req.IsVisible != nil {
+		updates["is_visible"] = *req.IsVisible
+	}
+	if req.IsSeen != nil {
+		updates["is_seen"] = *req.IsSeen
+	}
+	if len(updates) == 0 {
+		c.JSON(http.StatusBadRequest, dto.ApiResponse{Success: false, Message: "Không có gì để cập nhật"})
+		return
+	}
+
+	// Kiểm tra tồn tại trước: Updates() trả RowsAffected = 0 cả khi giá trị không đổi
+	var row models.RsvpResponse
+	if err := config.DB.Where("id = ? AND is_deleted = ?", id, false).First(&row).Error; err != nil {
+		c.JSON(http.StatusNotFound, dto.ApiResponse{Success: false, Message: "Không tìm thấy khách mời"})
+		return
+	}
+
+	if err := config.DB.Model(&row).Updates(updates).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, dto.ApiResponse{Success: false, Message: "Cập nhật thất bại, vui lòng thử lại sau!"})
+		return
+	}
+
+	c.JSON(http.StatusOK, dto.ApiResponse{Success: true, Message: "Đã cập nhật", Data: row})
+}

@@ -11,6 +11,7 @@ type RsvpResponse struct {
 	InvitedBy  string    `gorm:"type:varchar(100)" json:"invited_by"`
 	IsVisible  bool      `gorm:"type:tinyint(1);default:0;not null" json:"is_visible"`
 	IsDeleted  bool      `gorm:"type:tinyint(1);default:0;not null;index" json:"is_deleted"` // soft delete: 1 = đã xoá khỏi danh sách
+	IsSeen     bool      `gorm:"type:tinyint(1);default:0;not null" json:"is_seen"`          // 0 = tin mới, 1 = đã xem (trang ds-tham-du.html)
 	CreatedAt  time.Time `gorm:"autoCreateTime" json:"created_at"`
 	UpdatedAt  time.Time `gorm:"autoUpdateTime" json:"updated_at"`
 }

@@ -21,3 +21,10 @@ type ApiResponse struct {
 	Message string      `json:"message"`
 	Data    interface{} `json:"data,omitempty"`
 }
+
+// UpdateRsvpRequest cập nhật trạng thái 1 phản hồi từ trang quản lý.
+// Dùng con trỏ để chỉ cập nhật field nào được gửi lên.
+type UpdateRsvpRequest struct {
+	IsVisible *bool `json:"is_visible"` // hiển thị lời chúc lên thiệp
+	IsSeen    *bool `json:"is_seen"`    // đã xem / chưa xem
+}
