@@ -3,6 +3,7 @@ package config
 import (
 	"fmt"
 	"log"
+	"time"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -18,6 +19,17 @@ func ConnectDatabase() {
 	if err != nil {
 		log.Fatalf("Failed to connect to database: %v", err)
 	}
+
+	// Giới hạn connection pool: mặc định database/sql không giới hạn số kết nối mở,
+	// dễ tốn RAM/CPU (cả phía MySQL) khi có nhiều request cùng lúc.
+	sqlDB, err := database.DB()
+	if err != nil {
+		log.Fatalf("Failed to get sql.DB: %v", err)
+	}
+	sqlDB.SetMaxOpenConns(10)
+	sqlDB.SetMaxIdleConns(5)
+	sqlDB.SetConnMaxLifetime(30 * time.Minute)
+	sqlDB.SetConnMaxIdleTime(5 * time.Minute)
 
 	fmt.Println("Database connection successfully established!")
 	DB = database

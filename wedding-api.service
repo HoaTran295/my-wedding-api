@@ -1,0 +1,28 @@
+# Mẫu systemd service (khuyên dùng thay cho nohup): tự chạy khi server khởi động,
+# tự khởi động lại khi lỗi, giới hạn RAM/CPU.
+#
+# Cài đặt (sửa đường dẫn /path/to/wedding-api và User cho đúng server):
+#   cd /path/to/wedding-api && go build -trimpath -ldflags="-s -w" -o wedding-api-server .
+#   sudo cp wedding-api.service /etc/systemd/system/
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now wedding-api
+# Xem log:     journalctl -u wedding-api -f
+# Cập nhật code: build lại rồi  sudo systemctl restart wedding-api
+[Unit]
+Description=Wedding API
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=root
+WorkingDirectory=/path/to/wedding-api
+ExecStart=/path/to/wedding-api/wedding-api-server
+Environment=GIN_MODE=release
+Environment=GOMEMLIMIT=100MiB
+Restart=always
+RestartSec=3
+MemoryMax=200M
+CPUQuota=50%
+
+[Install]
+WantedBy=multi-user.target
