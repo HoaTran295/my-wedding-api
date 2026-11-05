@@ -13,7 +13,7 @@ func CORSMiddleware() gin.HandlerFunc {
 		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
 		c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
 		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
-		c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS, GET, PUT")
+		c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS, GET, PUT, DELETE")
 
 		if c.Request.Method == "OPTIONS" {
 			c.AbortWithStatus(204)
@@ -36,6 +36,10 @@ func main() {
 	// Route API
 	r.POST("/api/v1/wedding/rsvp", handlers.CreateRsvp)
 	r.GET("/api/v1/wedding/wishes", handlers.GetPublicWishes) // API lấy lời chúc công khai
+
+	// API quản lý danh sách tham dự (trang ds-tham-du.html)
+	r.GET("/api/v1/wedding/admin/rsvp", handlers.ListRsvp)              // danh sách chưa soft delete
+	r.DELETE("/api/v1/wedding/admin/rsvp/:id", handlers.SoftDeleteRsvp) // soft delete: is_deleted = 1
 
 	// Chạy server tại port 8080
 	r.Run(":2711")

@@ -52,10 +52,10 @@ func CreateRsvp(c *gin.Context) {
 func GetPublicWishes(c *gin.Context) {
 	var wishes []dto.PublicWishResponse
 
-	// Query lọc: is_visible = 1, message không rỗng, sắp xếp mới nhất lên đầu
+	// Query lọc: is_visible = 1, chưa soft delete, message không rỗng, sắp xếp mới nhất lên đầu
 	err := config.DB.Model(&models.RsvpResponse{}).
 		Select("name, message").
-		Where("is_visible = ? AND message IS NOT NULL AND message != ''", true).
+		Where("is_visible = ? AND is_deleted = ? AND message IS NOT NULL AND message != ''", true, false).
 		Order("created_at DESC").
 		Find(&wishes).Error
 
