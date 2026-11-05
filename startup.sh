@@ -35,6 +35,10 @@ GOMAXPROCS=1 go build -p 1 -trimpath -ldflags="-s -w" -o "$APP" .
 
 stop_app
 
+# Đường dẫn index.html của thiệp trên server (để tạo xem trước link có tên khách).
+# SỬA cho đúng thư mục web của bạn, hoặc export INVITE_INDEX_PATH trước khi chạy.
+export INVITE_INDEX_PATH="${INVITE_INDEX_PATH:-/var/www/cuoi-hoa-tuyet/index.html}"
+
 echo "Khởi động..."
 # GIN_MODE=release: tắt log debug của Gin
 # GOMEMLIMIT: giới hạn mềm bộ nhớ của Go runtime (GC chạy sớm hơn khi gần chạm ngưỡng)

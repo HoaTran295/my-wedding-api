@@ -42,6 +42,10 @@ func main() {
 	r.DELETE("/api/v1/wedding/admin/rsvp/:id", handlers.SoftDeleteRsvp) // soft delete: is_deleted = 1
 	r.PATCH("/api/v1/wedding/admin/rsvp/:id", handlers.UpdateRsvp)      // cập nhật is_visible / is_seen
 
+	// Trang thiệp có tên khách (nginx chuyển index.html?invite-name=... sang đây)
+	// để Zalo/Messenger hiện "Kính mời <tên> tham dự đám cưới ..." khi gửi link
+	r.GET("/api/v1/wedding/invite-page", handlers.GetInvitePage)
+
 	// Chạy server tại port 8080
 	r.Run(":2711")
 }

@@ -14,3 +14,11 @@ go get -u gorm.io/driver/mysql
    GET    /api/v1/wedding/admin/rsvp       -> danh sách chưa soft delete (tham dự lên trước, mới nhất trước)
    DELETE /api/v1/wedding/admin/rsvp/:id   -> soft delete (is_deleted = 1)
    PATCH  /api/v1/wedding/admin/rsvp/:id   -> body {"is_visible": true/false} và/hoặc {"is_seen": true/false}
+
+===== Xem trước link có tên khách trên Zalo / Messenger =====
+1. Sửa INVITE_INDEX_PATH trong startup.sh (hoặc wedding-api.service) thành đường dẫn
+   index.html của thiệp trên server, rồi chạy lại ./startup.sh
+2. Thêm cấu hình trong nginx-invite.conf vào nginx, rồi: sudo nginx -t && sudo systemctl reload nginx
+3. Kiểm tra trên server:
+   curl -s "https://cuoi-hoa-tuyet.htsolution.top/index.html?invite-name=Anh+Minh" | grep og:title
+   -> phải thấy "Kính mời Anh Minh tham dự đám cưới Trần Hòa &amp; Ánh Tuyết"

@@ -19,6 +19,7 @@ WorkingDirectory=/path/to/wedding-api
 ExecStart=/path/to/wedding-api/wedding-api-server
 Environment=GIN_MODE=release
 Environment=GOMEMLIMIT=100MiB
+Environment=INVITE_INDEX_PATH=/var/www/cuoi-hoa-tuyet/index.html
 Restart=always
 RestartSec=3
 MemoryMax=200M
