@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"html"
+	"log"
 	"net/http"
 	"net/url"
 	"os"
@@ -81,7 +82,8 @@ func GetInvitePage(c *gin.Context) {
 	page, err := readInviteIndex()
 	if err != nil {
 		// nginx sẽ tự trả file index.html tĩnh khi gặp lỗi này
-		c.String(http.StatusServiceUnavailable, "invite page not configured")
+		log.Printf("invite-page: không đọc được INVITE_INDEX_PATH=%q: %v", os.Getenv("INVITE_INDEX_PATH"), err)
+		c.String(http.StatusServiceUnavailable, "invite page not configured: check INVITE_INDEX_PATH")
 		return
 	}
 

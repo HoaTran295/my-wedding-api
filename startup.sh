@@ -37,7 +37,7 @@ stop_app
 
 # Đường dẫn index.html của thiệp trên server (để tạo xem trước link có tên khách).
 # SỬA cho đúng thư mục web của bạn, hoặc export INVITE_INDEX_PATH trước khi chạy.
-export INVITE_INDEX_PATH="${INVITE_INDEX_PATH:-/var/www/cuoi-hoa-tuyet/index.html}"
+export INVITE_INDEX_PATH="${INVITE_INDEX_PATH:-/var/www/my-wedding/index.html}"
 
 echo "Khởi động..."
 # GIN_MODE=release: tắt log debug của Gin
